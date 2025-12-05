@@ -129,35 +129,35 @@ class LoginpageScreen extends StatelessWidget {
                 const SizedBox(height: 35),
 
         
-                // SizedBox(
-                //   width: 160,
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) => const DashboardScreen(), 
-                //         ),
-                //       );
-                //     },
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: const Color(0xFFFF7A00),
-                //       padding: const EdgeInsets.symmetric(vertical: 14),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(24),
-                //       ),
-                //       elevation: 5,
-                //     ),
-                //     child: const Text(
-                //       "Login",
-                //       style: TextStyle(
-                //         color: Colors.white,
-                //         fontSize: 18,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                SizedBox(
+                  width: 160,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DashboardScreen(), 
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF7A00),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      elevation: 5,
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
 
                 const SizedBox(height: 30),
 
