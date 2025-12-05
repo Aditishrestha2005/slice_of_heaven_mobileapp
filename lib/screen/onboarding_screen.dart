@@ -50,24 +50,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
 
          
-            // Positioned(
-            //   top: 10,
-            //   left: 10,
-            //   child: TextButton(
-            //     onPressed: () {
-            //       Navigator.pushReplacement(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const GetStartedPageScreen(),
-            //         ),
-            //       );
-            //     },
-            //     child: const Text(
-            //       "Skip",
-            //       style: TextStyle(fontSize: 16, color: Colors.black),
-            //     ),
-            //   ),
-            // ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GetStartedPageScreen(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  "Skip",
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ),
+            ),
 
            
             Positioned(
@@ -100,29 +100,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
 
                  
-                  // TextButton(
-                  //   onPressed: () {
-                  //     if (currentIndex == 2) {
+                  TextButton(
+                    onPressed: () {
+                      if (currentIndex == 2) {
                         
-                  //       Navigator.pushReplacement(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (context) =>
-                  //               const GetStartedPageScreen(),
-                  //         ),
-                  //       );
-                  //     } else {
-                  //       _controller.nextPage(
-                  //         duration: const Duration(milliseconds: 300),
-                  //         curve: Curves.easeInOut,
-                  //       );
-                  //     }
-                  //   },
-                  //   child: const Text(
-                  //     "Next",
-                  //     style: TextStyle(fontSize: 16, color: Colors.black),
-                  //   ),
-                  // ),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const GetStartedPageScreen(),
+                          ),
+                        );
+                      } else {
+                        _controller.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ),
                 ],
               ),
             ),
