@@ -135,31 +135,31 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 35),
 
-                // // Sign Up Button (NOW NAVIGATES)
-                // // SizedBox(
-                // //   width: 160,
-                // //   child: ElevatedButton(
-                // //     onPressed: () {
-                // //       Navigator.push(
-                // //         context,
-                // //         // MaterialPageRoute(
-                // //         //   // builder: (context) => const LoginpageScreen(),
-                // //         // ),
-                // //       );
-                // //     },
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: const Color(0xFFFF7A00),
-                //       padding: const EdgeInsets.symmetric(vertical: 14),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(24),
-                //       ),
-                //     ),
-                //     child: const Text(
-                //       "Sign up",
-                //       style: TextStyle(color: Colors.white, fontSize: 18),
-                //     ),
-                //   ),
-                // ),
+               
+                SizedBox(
+                  width: 160,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginpageScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF7A00),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    child: const Text(
+                      "Sign up",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
+                ),
 
                 const SizedBox(height: 20),
 
