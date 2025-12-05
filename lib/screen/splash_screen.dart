@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Call the navigation function immediately
+ 
     _navigateToNextScreen();
   }
 
