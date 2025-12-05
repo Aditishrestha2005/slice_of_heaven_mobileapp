@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:slice_of_heaven/screen/loginpage_screen.dart';
 
 class SignuppageScreen extends StatelessWidget {
   const SignuppageScreen({super.key});
@@ -7,7 +7,7 @@ class SignuppageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A0B09), // dark brown
+      backgroundColor: const Color(0xFF1A0B09),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -17,7 +17,6 @@ class SignuppageScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 10),
 
-                // ---------------- TOP TITLE ----------------
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -32,7 +31,7 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // ---------------- PIZZA CIRCLE IMAGE ----------------
+                // Profile Image
                 Container(
                   height: 130,
                   width: 130,
@@ -47,7 +46,6 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 25),
 
-                // ---------------- REGISTER TITLE ----------------
                 const Text(
                   "Register",
                   style: TextStyle(
@@ -59,7 +57,7 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 35),
 
-                // ---------------- EMAIL FIELD ----------------
+                // Email Field
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -74,8 +72,8 @@ class SignuppageScreen extends StatelessWidget {
                     fillColor: const Color(0xFFFFE6C7),
                     hintText: "Email",
                     hintStyle: const TextStyle(color: Colors.black54),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -84,7 +82,7 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 18),
 
-                // ---------------- PASSWORD FIELD ----------------
+                // Password Field
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -100,8 +98,8 @@ class SignuppageScreen extends StatelessWidget {
                     fillColor: const Color(0xFFFFE6C7),
                     hintText: "Password",
                     hintStyle: const TextStyle(color: Colors.black54),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                     suffixIcon: const Icon(Icons.visibility_off),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -111,7 +109,6 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 18),
 
-                // ---------------- CONFIRM PASSWORD FIELD ----------------
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -128,8 +125,8 @@ class SignuppageScreen extends StatelessWidget {
                     hintText: "Confirm Password",
                     hintStyle: const TextStyle(color: Colors.black54),
                     suffixIcon: const Icon(Icons.visibility_off),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -138,54 +135,61 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 35),
 
-                // ---------------- SIGNUP BUTTON ----------------
-                SizedBox(
-                  width: 160,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF7A00),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    child: const Text(
-                      "Sign up",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                ),
+                // // Sign Up Button (NOW NAVIGATES)
+                // // SizedBox(
+                // //   width: 160,
+                // //   child: ElevatedButton(
+                // //     onPressed: () {
+                // //       Navigator.push(
+                // //         context,
+                // //         // MaterialPageRoute(
+                // //         //   // builder: (context) => const LoginpageScreen(),
+                // //         // ),
+                // //       );
+                // //     },
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: const Color(0xFFFF7A00),
+                //       padding: const EdgeInsets.symmetric(vertical: 14),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(24),
+                //       ),
+                //     ),
+                //     child: const Text(
+                //       "Sign up",
+                //       style: TextStyle(color: Colors.white, fontSize: 18),
+                //     ),
+                //   ),
+                // ),
 
                 const SizedBox(height: 20),
 
-                // ---------------- LOGIN LINK ----------------
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Already registered? ",
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => const LoginpageScreen(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const Text(
-                    //     "Login",
-                    //     style: TextStyle(
-                    //       color: Color(0xFFFF7A00),
-                    //       fontWeight: FontWeight.bold,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                // // Already Registered?
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     const Text(
+                //       "Already registered? ",
+                //       style: TextStyle(color: Colors.white70),
+                //     ),
+                //     GestureDetector(
+                //       onTap: () {
+                //         Navigator.push(
+                //           context,
+                //           // MaterialPageRoute(
+                //           //   // builder: (context) => const LoginpageScreen(),
+                //           // ),
+                //         );
+                //       },
+                //       child: const Text(
+                //         "Login",
+                //         style: TextStyle(
+                //           color: Color(0xFFFF7A00),
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
 
                 const SizedBox(height: 30),
               ],
