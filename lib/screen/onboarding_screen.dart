@@ -69,7 +69,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             //   ),
             // ),
 
-            // Bottom Navigation: Dots + Next
+           
             Positioned(
               bottom: 20,
               left: 0,
@@ -77,10 +77,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Empty space (alignment purpose)
+               
                   const SizedBox(width: 80),
 
-                  // Dot Indicators
+               
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -132,7 +132,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  // Onboarding Page UI Builder
+
   Widget buildPage({
     required String image,
     required String title,
