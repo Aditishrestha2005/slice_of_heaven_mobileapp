@@ -168,23 +168,23 @@ class LoginpageScreen extends StatelessWidget {
                       "Don't have an account? ",
                       style: TextStyle(color: Colors.white70),
                     ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => const SignuppageScreen(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const Text(
-                    //     "Sign up",
-                    //     style: TextStyle(
-                    //       color: Color(0xFFFF7A00),
-                    //       fontWeight: FontWeight.bold,
-                    //     ),
-                    //   ),
-                    // ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignuppageScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: Color(0xFFFF7A00),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
 
