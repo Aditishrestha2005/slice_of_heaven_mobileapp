@@ -163,33 +163,33 @@ class SignuppageScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // // Already Registered?
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     const Text(
-                //       "Already registered? ",
-                //       style: TextStyle(color: Colors.white70),
-                //     ),
-                //     GestureDetector(
-                //       onTap: () {
-                //         Navigator.push(
-                //           context,
-                //           // MaterialPageRoute(
-                //           //   // builder: (context) => const LoginpageScreen(),
-                //           // ),
-                //         );
-                //       },
-                //       child: const Text(
-                //         "Login",
-                //         style: TextStyle(
-                //           color: Color(0xFFFF7A00),
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
+            
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already registered? ",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginpageScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                          color: Color(0xFFFF7A00),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
                 const SizedBox(height: 30),
               ],
