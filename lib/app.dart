@@ -14,7 +14,9 @@ class App extends StatelessWidget {
       title: 'Flutter Apps for College',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme().copyWith(
-        appBarTheme: getAppBarTheme(),
+        appBarTheme: getAppBarTheme(), 
+          inputDecorationTheme: InputDecorationTheme(),
+        bottomNavigationBarTheme: getBottomNavigationBarTheme(),
         
       ),
       home: const SplashScreen(),
