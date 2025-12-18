@@ -10,6 +10,8 @@ BottomNavigationBarThemeData getBottomNavigationBarTheme() {
       fontSize: 14,
     ),
     unselectedLabelStyle: const TextStyle(
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 12,
       
     ),
   );
