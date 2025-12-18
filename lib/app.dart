@@ -13,11 +13,10 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Apps for College',
       debugShowCheckedModeBanner: false,
-      // theme: AppTheme.lightTheme().copyWith(
-      //   appBarTheme: getAppBarTheme(),
-      //   // inputDecorationTheme: InputDecorationTheme(),
-      //   // bottomNavigationBarTheme: getBottomNavigationBarTheme(),
-      // ),
+      theme: AppTheme.lightTheme().copyWith(
+        appBarTheme: getAppBarTheme(),
+        
+      ),
       home: const SplashScreen(),
     );
   }
