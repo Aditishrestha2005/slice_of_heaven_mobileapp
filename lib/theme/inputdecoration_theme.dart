@@ -6,11 +6,11 @@ InputDecorationTheme getinputdecorationtheme(){
     fillColor: Colors.grey.shade200,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Colors.green),
+      borderSide: const BorderSide(color: Color.fromARGB(255, 227, 143, 8)),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Colors.green, width: 2),
+      borderSide: const BorderSide(color: Color.fromARGB(255, 228, 143, 5), width: 2),
     ),
     labelStyle: const TextStyle(
       fontFamily: 'OpenSans-Regular',

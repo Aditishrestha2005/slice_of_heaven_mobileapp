@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+      colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 244, 135, 10)),
       useMaterial3: true,
       fontFamily: 'OpenSansItalic',
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -12,7 +12,7 @@ class AppTheme {
             fontSize: 18,
             fontFamily: 'OpenSansBold',
           ),
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: const Color.fromARGB(255, 239, 145, 4),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
