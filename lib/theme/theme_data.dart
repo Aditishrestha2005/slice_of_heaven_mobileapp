@@ -13,7 +13,9 @@ class AppTheme {
             fontFamily: 'OpenSansBold',
           ),
           backgroundColor: Colors.lightGreen,
-        
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
         ),
       ),
     );
