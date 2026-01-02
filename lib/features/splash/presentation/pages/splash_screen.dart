@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:slice_of_heaven/screen/onboarding_screen.dart';
+import 'package:slice_of_heaven/features/onboarding/onboarding_screen.dart';
 
 
 class SplashScreen extends StatefulWidget {

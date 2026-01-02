@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:slice_of_heaven/screen/loginpage_screen.dart';
+import 'package:slice_of_heaven/features/auth/presentation/pages/loginpage_screen.dart';
 
 class SignuppageScreen extends StatelessWidget {
   const SignuppageScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:slice_of_heaven/screen/bottom_screen/cart_screen.dart';
-import 'package:slice_of_heaven/screen/bottom_screen/home_screen.dart';
-import 'package:slice_of_heaven/screen/bottom_screen/order_details_screen.dart';
-import 'package:slice_of_heaven/screen/bottom_screen/profile_screen.dart';
+import 'package:slice_of_heaven/features/dashboard/bottom_screen/cart_screen.dart';
+import 'package:slice_of_heaven/features/dashboard/bottom_screen/home_screen.dart';
+import 'package:slice_of_heaven/features/dashboard/bottom_screen/order_details_screen.dart';
+import 'package:slice_of_heaven/features/dashboard/bottom_screen/profile_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
