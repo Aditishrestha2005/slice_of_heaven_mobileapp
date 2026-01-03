@@ -28,7 +28,7 @@ class AuthRepository implements IAuthRepository {
       if (existingUser != null) {
         return const Left(
           LocalDatabaseFailure(
-            message: "This email is already registered with PeerPicks",
+            message: "This email is already registered with Slice of Heaven",
           ),
         );
       }

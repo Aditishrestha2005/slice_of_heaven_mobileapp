@@ -10,7 +10,7 @@ import 'package:slice_of_heaven/core/services/storage/user_session_service.dart'
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 4. Set System UI Styles
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -19,7 +19,7 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-  // Initialize Hive Service
+
   final hiveService = HiveService();
   await hiveService.init();
   // 5. Initialize SharedPreferences instance
@@ -28,7 +28,7 @@ void main() async {
   runApp(
     ProviderScope(
       overrides: [
-        // Inject initialized SharedPreferences into the provider
+
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],
       child: const App(),

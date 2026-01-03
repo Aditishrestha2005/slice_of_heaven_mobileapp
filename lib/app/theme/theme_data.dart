@@ -5,7 +5,7 @@ class AppTheme {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 244, 135, 10)),
       useMaterial3: true,
-      fontFamily: 'OpenSansItalic',
+      fontFamily: 'OpenSansRegular',
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           textStyle: const TextStyle(

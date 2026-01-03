@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:slice_of_heaven/core/utils/snackbar_utils.dart';
 import 'package:slice_of_heaven/screen/dashboard_screen.dart';
 import 'signuppage_screen.dart';
+
+// Shared styles
+const Color kPrimaryButtonColor = Color.fromARGB(255, 235, 151, 26);
+const Color kPrimaryTextColor = Color.fromARGB(255, 26, 23, 19);
+
+const TextStyle kButtonTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle kHeadingTextStyle = TextStyle(
+  fontSize: 28,
+  color: kPrimaryTextColor,
+  fontWeight: FontWeight.bold,
+);
 
 class LoginpageScreen extends StatefulWidget {
   const LoginpageScreen({super.key});
@@ -22,64 +39,37 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
     super.dispose();
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) return "Email is required.";
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) return "Enter a valid email.";
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) return "Password is required.";
-    if (value.length < 6) return "Password must be at least 6 characters.";
-    return null;
-  }
-
   void _login() {
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
-
-    String? emailError = _validateEmail(email);
-    String? passwordError = _validatePassword(password);
-
-    if (emailError != null) {
-      _showSnackBar(emailError);
+    if (emailController.text.trim().isEmpty) {
+      SnackbarUtils.showError(context, "Email is required");
       return;
     }
 
-    if (passwordError != null) {
-      _showSnackBar(passwordError);
+    if (passwordController.text.trim().isEmpty) {
+      SnackbarUtils.showError(context, "Password is required");
       return;
     }
 
-    // If all validations pass, navigate to Dashboard
-    Navigator.push(
+    // Success (for now)
+    SnackbarUtils.showSuccess(context, "Login successful");
+
+    Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const DashboardScreen()),
+      MaterialPageRoute(builder: (_) => const DashboardScreen()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A0B09),
+      backgroundColor: const Color.fromARGB(255, 245, 230, 209),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 22),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
+
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -87,11 +77,13 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                   style: TextStyle(
                     fontFamily: "Cursive",
                     fontSize: 18,
-                    color: Colors.white,
+                    color: kPrimaryTextColor,
                   ),
                 ),
               ),
+
               const SizedBox(height: 40),
+
               Container(
                 height: 130,
                 width: 130,
@@ -103,140 +95,93 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 35),
-              const Text(
-                "Login",
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              const Text("Login", style: kHeadingTextStyle),
               const SizedBox(height: 40),
+
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Email ID",
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: Text("Email", style: TextStyle(color: kPrimaryTextColor)),
               ),
               const SizedBox(height: 8),
+
               TextField(
                 controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xFFFFE6C7),
-                  hintText: "Email",
-                  hintStyle: TextStyle(color: Colors.black54),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide(color: Color(0xFFFF7A00), width: 2),
-                  ),
-                ),
+                decoration: _inputDecoration("Email"),
               ),
+
               const SizedBox(height: 25),
+
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Password",
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: Text("Password", style: TextStyle(color: kPrimaryTextColor)),
               ),
               const SizedBox(height: 8),
+
               TextField(
                 controller: passwordController,
                 obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFFFE6C7),
-                  hintText: "Password",
-                  hintStyle: const TextStyle(color: Colors.black54),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  suffixIcon: IconButton(
+                decoration: _inputDecoration(
+                  "Password",
+                  suffix: IconButton(
                     icon: Icon(
                       _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                       color: Colors.black54,
                     ),
                     onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
+                      setState(() => _isPasswordVisible = !_isPasswordVisible);
                     },
                   ),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide(color: Color(0xFFFF7A00), width: 2),
-                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
-                ),
-              ),
+
               const SizedBox(height: 35),
+
               SizedBox(
                 width: 160,
                 child: ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF7A00),
+                    backgroundColor: kPrimaryButtonColor,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(24),
                     ),
-                    elevation: 5,
                   ),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: const Text("Login", style: kButtonTextStyle),
                 ),
               ),
+
               const SizedBox(height: 30),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     "Don't have an account? ",
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: kPrimaryTextColor,fontSize: 16),
+                  
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignuppageScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const SignuppageScreen()),
                       );
                     },
                     child: const Text(
                       "Sign up",
                       style: TextStyle(
-                        color: Color(0xFFFF7A00),
+                        color: Color.fromARGB(255, 80, 194, 74) ,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ],
               ),
+
               const SizedBox(height: 30),
             ],
           ),
@@ -244,4 +189,19 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
       ),
     );
   }
+}
+
+InputDecoration _inputDecoration(String hint, {Widget? suffix}) {
+  return InputDecoration(
+    filled: true,
+    fillColor: const Color.fromARGB(255, 216, 164, 100),
+    hintText: hint,
+    hintStyle: const TextStyle(color: Colors.black54),
+    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+    suffixIcon: suffix,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+      borderSide: BorderSide.none,
+    ),
+  );
 }

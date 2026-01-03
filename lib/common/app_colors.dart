@@ -4,8 +4,8 @@ class AppColors {
   // Brand Colors
   static const Color primaryGreen = Color(
     0xFF75A638,
-  ); // Official PeerPicks Green
-  static const Color secondaryGreen = Color(0xFF6ABF00);
+  ); 
+  static const Color secondaryGreen = Color.fromARGB(255, 236, 141, 9);
 
   // Social Colors
   static const Color facebookBlue = Color(0xFF1877F2);
