@@ -1,6 +1,4 @@
 
-
-// Create provider
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:slice_of_heaven/core/error/failure.dart';
@@ -23,7 +21,7 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<Either<Failure, bool>> register(AuthEntity user) async {
     try {
-      // 1. Check if user already exists in Hive
+     
       final existingUser = await _authDataSource.getUserByEmail(user.email);
       if (existingUser != null) {
         return const Left(
@@ -33,7 +31,7 @@ class AuthRepository implements IAuthRepository {
         );
       }
 
-      // 2. Convert Entity to Hive Model using factory for cleaner code
+
       final authModel = AuthHiveModel.fromEntity(user);
 
       await _authDataSource.register(authModel);

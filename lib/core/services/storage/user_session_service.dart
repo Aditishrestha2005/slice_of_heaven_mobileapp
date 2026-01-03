@@ -26,7 +26,7 @@ class UserSessionService {
 
   UserSessionService({required SharedPreferences prefs}) : _prefs = prefs;
 
-  // Save user session after login
+  
   Future<void> saveUserSession({
     required String userId,
     required String email,
@@ -48,7 +48,7 @@ class UserSessionService {
     }
   }
 
-  // Session check methods
+  
   bool isLoggedIn() => _prefs.getBool(_keyIsLoggedIn) ?? false;
   String? getCurrentUserId() => _prefs.getString(_keyUserId);
   String? getCurrentUserEmail() => _prefs.getString(_keyUserEmail);
@@ -58,7 +58,7 @@ class UserSessionService {
   String? getCurrentUserProfilePicture() =>
       _prefs.getString(_keyUserProfilePicture);
 
-  // Clear user session (logout)
+ 
   Future<void> clearSession() async {
     await _prefs.remove(_keyIsLoggedIn);
     await _prefs.remove(_keyUserId);

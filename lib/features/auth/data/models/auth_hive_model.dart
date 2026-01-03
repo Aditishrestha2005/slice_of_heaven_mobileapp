@@ -4,9 +4,9 @@ import 'package:slice_of_heaven/features/auth/domain/entities/auth_entity.dart';
 
 part 'auth_hive_model.g.dart';
 
-/// Hive constants for typeIds
+
 class HiveTableConstant {
-  static const int authTypeId = 1; // Must be const!
+  static const int authTypeId = 1; 
 }
 
 /// Hive model for authentication/user
@@ -43,7 +43,7 @@ class AuthHiveModel extends HiveObject {
     this.profilePicture,
   }) : authId = authId ?? const Uuid().v4();
 
-  /// Convert Hive Model to Domain Entity
+ 
   AuthEntity toEntity() {
     return AuthEntity(
       authId: authId,
@@ -56,7 +56,6 @@ class AuthHiveModel extends HiveObject {
     );
   }
 
-  /// Create Hive Model from Domain Entity
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
       authId: entity.authId,

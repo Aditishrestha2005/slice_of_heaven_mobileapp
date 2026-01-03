@@ -1,5 +1,3 @@
-
-
 import 'package:slice_of_heaven/features/auth/data/models/auth_hive_model.dart';
 
 abstract class IAuthDataSource {
