@@ -40,7 +40,7 @@ class HiveService {
   Box<AuthHiveModel> get _authBox =>
       Hive.box<AuthHiveModel>(HiveTableConstant.authTable);
 
-  // ======================= Auth Queries =========================
+
 
   Future<void> register(AuthHiveModel user) async {
     await _authBox.put(user.authId, user);

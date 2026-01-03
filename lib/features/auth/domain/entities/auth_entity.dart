@@ -28,5 +28,6 @@ class AuthEntity extends Equatable {
     username,
     password,
     profilePicture,
+    
   ];
 }
