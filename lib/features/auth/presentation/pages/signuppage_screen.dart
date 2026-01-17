@@ -202,7 +202,7 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                   toggle: () => setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
                   validator: (v) {
                     if (v == null || v.isEmpty) return "Confirm your password";
-                    if (v != passController.text) return "Passwords do not match";
+                    if (v != passController.text) return "Passwords don't match";
                     return null;
                   },
                 ),

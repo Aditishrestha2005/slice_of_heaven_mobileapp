@@ -4,7 +4,7 @@ import 'package:slice_of_heaven/core/utils/snackbar_utils.dart';
 import 'package:slice_of_heaven/screen/dashboard_screen.dart';
 import'signuppage_screen.dart';
 
-const Color kPrimaryButtonColor = Color.fromARGB(255, 235, 151, 26);
+const Color kPrimaryButtonColor = Color.fromARGB(255, 255, 153, 0);
 const Color kPrimaryTextColor = Color.fromARGB(255, 26, 23, 19);
 
 const TextStyle kButtonTextStyle = TextStyle(
