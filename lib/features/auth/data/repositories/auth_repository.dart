@@ -139,7 +139,7 @@ class AuthRepository implements IAuthRepository {
     try {
       final user = await _authDatasource.getUserByEmail(email);
       if (user != null) return Right(user.toEntity());
-      return const Left(LocalDatabaseFailure(message: "No user found with this email"));
+      return const Left(LocalDatabaseFailure(message: "No user is found with this email"));
     } catch (e) {
       return Left(LocalDatabaseFailure(message: e.toString()));
     }
