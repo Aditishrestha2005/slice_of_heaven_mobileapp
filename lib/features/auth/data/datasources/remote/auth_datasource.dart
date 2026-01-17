@@ -1,12 +1,18 @@
-import 'package:slice_of_heaven/features/auth/data/models/auth_hive_model.dart';
+import 'package:slice_of_heaven/features/auth/data/models/auth_api_model.dart';
 
-abstract class IAuthDataSource {
-  Future<void> register(AuthHiveModel user);
-  Future<AuthHiveModel?> login(String email, String password);
-  Future<AuthHiveModel?> getCurrentUser();
-  Future<bool> logout();
-  Future<AuthHiveModel?> getUserById(String authId);
-  Future<AuthHiveModel?> getUserByEmail(String email);
-  Future<bool> updateUser(AuthHiveModel user);
-  Future<bool> deleteUser(String authId);
+/// ===============================
+/// REMOTE DATASOURCE INTERFACE
+/// ===============================
+///
+/// This file MUST contain ONLY remote-related interfaces.
+/// Do NOT add local datasource here.
+abstract class IAuthRemoteDataSource {
+  /// Register user via API
+  Future<AuthApiModel> register(AuthApiModel user);
+
+  /// Login user via API
+  Future<AuthApiModel?> login(String email, String password);
+
+  /// Get user by ID via API
+  Future<AuthApiModel?> getUserById(String authId);
 }

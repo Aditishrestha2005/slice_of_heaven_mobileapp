@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slice_of_heaven/core/utils/snackbar_utils.dart';
 import 'package:slice_of_heaven/screen/dashboard_screen.dart';
-import 'signuppage_screen.dart';
+import'signuppage_screen.dart';
 
-// Shared styles
 const Color kPrimaryButtonColor = Color.fromARGB(255, 235, 151, 26);
 const Color kPrimaryTextColor = Color.fromARGB(255, 26, 23, 19);
 
@@ -31,6 +31,7 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -39,24 +40,47 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
     super.dispose();
   }
 
-  void _login() {
-    if (emailController.text.trim().isEmpty) {
+  Future<void> _login() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    // Basic validation
+    if (email.isEmpty) {
       SnackbarUtils.showError(context, "Email is required");
       return;
     }
-
-    if (passwordController.text.trim().isEmpty) {
+    if (!email.contains('@')) {
+      SnackbarUtils.showError(context, "Enter a valid email");
+      return;
+    }
+    if (password.isEmpty) {
       SnackbarUtils.showError(context, "Password is required");
       return;
     }
+    if (password.length < 6) {
+      SnackbarUtils.showError(context, "Password must be at least 6 characters");
+      return;
+    }
 
-    // Success (for now)
-    SnackbarUtils.showSuccess(context, "Login successful");
+    setState(() => _isLoading = true);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const DashboardScreen()),
-    );
+    try {
+      // Save login state
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('is_logged_in', true);
+
+      SnackbarUtils.showSuccess(context, "Login successful");
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const DashboardScreen()),
+      );
+    } catch (e) {
+      SnackbarUtils.showError(context, "Login failed: $e");
+    }
+
+    if (mounted) setState(() => _isLoading = false);
   }
 
   @override
@@ -69,7 +93,6 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
           child: Column(
             children: [
               const SizedBox(height: 10),
-
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -81,9 +104,7 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 40),
-
               Container(
                 height: 130,
                 width: 130,
@@ -95,30 +116,29 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 35),
               const Text("Login", style: kHeadingTextStyle),
               const SizedBox(height: 40),
 
+              // Email field
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Email", style: TextStyle(color: kPrimaryTextColor)),
               ),
               const SizedBox(height: 8),
-
               TextField(
                 controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: _inputDecoration("Email"),
               ),
-
               const SizedBox(height: 25),
 
+              // Password field
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Password", style: TextStyle(color: kPrimaryTextColor)),
               ),
               const SizedBox(height: 8),
-
               TextField(
                 controller: passwordController,
                 obscureText: !_isPasswordVisible,
@@ -129,19 +149,17 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                       _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                       color: Colors.black54,
                     ),
-                    onPressed: () {
-                      setState(() => _isPasswordVisible = !_isPasswordVisible);
-                    },
+                    onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
                   ),
                 ),
               ),
-
               const SizedBox(height: 35),
 
+              // Login button
               SizedBox(
                 width: 160,
                 child: ElevatedButton(
-                  onPressed: _login,
+                  onPressed: _isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kPrimaryButtonColor,
                     padding: const EdgeInsets.symmetric(vertical: 14),
@@ -149,20 +167,25 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                       borderRadius: BorderRadius.circular(24),
                     ),
                   ),
-                  child: const Text("Login", style: kButtonTextStyle),
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text("Login", style: kButtonTextStyle),
                 ),
               ),
-
               const SizedBox(height: 30),
 
+              // Sign up link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(color: kPrimaryTextColor,fontSize: 16),
-                  
-                  ),
+                  const Text("Don't have an account? ", style: TextStyle(color: kPrimaryTextColor, fontSize: 16)),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -173,7 +196,7 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                     child: const Text(
                       "Sign up",
                       style: TextStyle(
-                        color: Color.fromARGB(255, 80, 194, 74) ,
+                        color: Color.fromARGB(255, 80, 194, 74),
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -181,7 +204,6 @@ class _LoginpageScreenState extends State<LoginpageScreen> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 30),
             ],
           ),

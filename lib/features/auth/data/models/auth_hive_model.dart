@@ -1,13 +1,10 @@
 import 'package:hive/hive.dart';
-import 'package:uuid/uuid.dart';
+import 'package:slice_of_heaven/core/constants/hive_table_constant.dart';
+
 import 'package:slice_of_heaven/features/auth/domain/entities/auth_entity.dart';
+import 'package:uuid/uuid.dart';
 
 part 'auth_hive_model.g.dart';
-
-
-class HiveTableConstant {
-  static const int authTypeId = 1; 
-}
 
 /// Hive model for authentication/user
 @HiveType(typeId: HiveTableConstant.authTypeId)
@@ -43,7 +40,7 @@ class AuthHiveModel extends HiveObject {
     this.profilePicture,
   }) : authId = authId ?? const Uuid().v4();
 
- 
+  /// Convert Hive Model → Domain Entity
   AuthEntity toEntity() {
     return AuthEntity(
       authId: authId,
@@ -56,6 +53,7 @@ class AuthHiveModel extends HiveObject {
     );
   }
 
+  /// Convert Domain Entity → Hive Model
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
       authId: entity.authId,

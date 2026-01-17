@@ -11,12 +11,20 @@ abstract class Failure extends Equatable {
 
 class LocalDatabaseFailure extends Failure {
   const LocalDatabaseFailure({String message = "Local Database Failure"})
-    : super(message);
+      : super(message);
 }
 
 class ApiFailure extends Failure {
   final int? statusCode;
 
-  const ApiFailure({String message = "API Failure", this.statusCode})
-    : super(message);
+  const ApiFailure({
+    String message = "API Failure",
+    this.statusCode,
+  }) : super(message);
+}
+
+/// ✅ ADD THIS CLASS (THIS FIXES YOUR ERROR)
+class ValidationFailure extends Failure {
+  const ValidationFailure({String message = "Validation Failure"})
+      : super(message);
 }

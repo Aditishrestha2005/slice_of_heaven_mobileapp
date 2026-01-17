@@ -16,7 +16,7 @@ class AuthEntity extends Equatable {
     required this.phoneNumber,
     required this.username,
     this.password,
-    this.profilePicture, String? batchId,
+    this.profilePicture,  String? token,
   });
 
   @override
@@ -30,4 +30,6 @@ class AuthEntity extends Equatable {
     profilePicture,
     
   ];
+
+  String? get token => null;
 }

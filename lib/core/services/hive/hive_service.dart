@@ -2,72 +2,61 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:slice_of_heaven/core/constants/hive_table_constant.dart';
-import 'package:slice_of_heaven/features/auth/data/models/auth_hive_model.dart' hide HiveTableConstant;
+import 'package:slice_of_heaven/features/auth/data/models/auth_hive_model.dart';
 
 
 final hiveServiceProvider = Provider<HiveService>((ref) {
   return HiveService();
 });
-
 class HiveService {
-  // init
+  static bool _initialized = false;
+
   Future<void> init() async {
+    if (_initialized) return;
+
     final directory = await getApplicationDocumentsDirectory();
-    final path = '${directory.path}/${HiveTableConstant.dbName}';
-    Hive.init(path);
+    Hive.init(directory.path);
 
-    // register adapter
-    _registerAdapter();
-    await _openBoxes();
-  }
-
-  void _registerAdapter() {
     if (!Hive.isAdapterRegistered(HiveTableConstant.authTypeId)) {
       Hive.registerAdapter(AuthHiveModelAdapter());
     }
+
+    if (!Hive.isBoxOpen(HiveTableConstant.authTable)) {
+      await Hive.openBox<AuthHiveModel>(HiveTableConstant.authTable);
+    }
+
+    _initialized = true;
   }
 
-  // box open
-  Future<void> _openBoxes() async {
-    await Hive.openBox<AuthHiveModel>(HiveTableConstant.authTable);
-  }
+  Box<AuthHiveModel> get _authBox => Hive.box<AuthHiveModel>(HiveTableConstant.authTable);
 
-  // box close
-  Future<void> _close() async {
-    await Hive.close();
-  }
-
-  Box<AuthHiveModel> get _authBox =>
-      Hive.box<AuthHiveModel>(HiveTableConstant.authTable);
-
-
-
-  Future<void> register(AuthHiveModel user) async {
+  // ================= AUTH =================
+  Future<AuthHiveModel> register(AuthHiveModel user) async {
+    await init();
     await _authBox.put(user.authId, user);
+    return user;
   }
 
   AuthHiveModel? login(String email, String password) {
     try {
       return _authBox.values.firstWhere(
-        (user) => user.email == email && user.password == password,
+        (user) =>
+            user.email.trim().toLowerCase() == email.trim().toLowerCase() &&
+            user.password == password,
       );
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
 
-  AuthHiveModel? getUserById(String authId) {
-    return _authBox.get(authId);
-  }
-
-  bool isEmailRegistered(String email) {
-    return _authBox.values.any((user) => user.email == email);
-  }
+  AuthHiveModel? getUserById(String authId) => _authBox.get(authId);
 
   Future<AuthHiveModel?> getUserByEmail(String email) async {
     try {
-      return _authBox.values.firstWhere((user) => user.email == email);
-    } catch (e) {
+      return _authBox.values.firstWhere(
+        (user) => user.email.trim().toLowerCase() == email.trim().toLowerCase(),
+      );
+    } catch (_) {
       return null;
     }
   }
@@ -82,5 +71,27 @@ class HiveService {
 
   Future<void> deleteUser(String authId) async {
     await _authBox.delete(authId);
+  }
+
+  // ================= SESSION =================
+  Future<void> setLoginSession(String userId) async {
+    await init();
+    final sessionBox = await Hive.openBox<String>('session');
+    await sessionBox.put('loggedInUserId', userId);
+  }
+
+  Future<void> clearLoginSession() async {
+    final sessionBox = await Hive.openBox<String>('session');
+    await sessionBox.delete('loggedInUserId');
+  }
+
+  Future<bool> isLoggedIn() async {
+    final sessionBox = await Hive.openBox<String>('session');
+    return sessionBox.containsKey('loggedInUserId');
+  }
+
+  Future<String?> getLoggedInUserId() async {
+    final sessionBox = await Hive.openBox<String>('session');
+    return sessionBox.get('loggedInUserId');
   }
 }

@@ -5,7 +5,6 @@ import 'package:slice_of_heaven/features/auth/presentation/state/auth_state.dart
 import 'package:slice_of_heaven/features/auth/presentation/view_model/auth_view_model.dart';
 import 'loginpage_screen.dart';
 
-// Shared styles (same as Login)
 const Color kPrimaryButtonColor = Color.fromARGB(255, 235, 151, 26);
 const Color kPrimaryTextColor = Color.fromARGB(255, 26, 23, 19);
 
@@ -64,17 +63,23 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
 
     final authVM = ref.read(authViewModelProvider.notifier);
 
+    // Call register
     await authVM.register(
       fullName: fullNameController.text.trim(),
       username: usernameController.text.trim(),
       email: emailController.text.trim(),
       password: passController.text.trim(),
+      confirmPassword: confirmPassController.text.trim(),
     );
 
     final state = ref.read(authViewModelProvider);
 
-    if (state.status == AuthStatus.registered) {
+    if (state.status == AuthStatus.loading) {
+      // Do nothing, button already disabled by UI
+      return;
+    } else if (state.status == AuthStatus.registered) {
       SnackbarUtils.showSuccess(context, "Account created successfully");
+
       Future.delayed(const Duration(seconds: 1), () {
         if (mounted) {
           Navigator.pushReplacement(
@@ -106,7 +111,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-
                 const Text(
                   "Slice of Heaven",
                   style: TextStyle(
@@ -115,9 +119,7 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     color: kPrimaryTextColor,
                   ),
                 ),
-
                 const SizedBox(height: 40),
-
                 Center(
                   child: Container(
                     height: 130,
@@ -131,7 +133,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 35),
                 Center(child: Text("Create Account", style: kHeadingTextStyle)),
                 const SizedBox(height: 8),
@@ -141,7 +142,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     style: TextStyle(color: kPrimaryTextColor, fontSize: 15),
                   ),
                 ),
-
                 const SizedBox(height: 25),
 
                 /// FULL NAME
@@ -149,10 +149,8 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 const SizedBox(height: 8),
                 _textField(
                   controller: fullNameController,
-                  validator: (v) =>
-                      v == null || v.trim().isEmpty ? "Full name is required" : null,
+                  validator: (v) => v == null || v.trim().isEmpty ? "Full name is required" : null,
                 ),
-
                 const SizedBox(height: 18),
 
                 /// USERNAME
@@ -160,10 +158,8 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 const SizedBox(height: 8),
                 _textField(
                   controller: usernameController,
-                  validator: (v) =>
-                      v == null || v.trim().isEmpty ? "Username is required" : null,
+                  validator: (v) => v == null || v.trim().isEmpty ? "Username is required" : null,
                 ),
-
                 const SizedBox(height: 18),
 
                 /// EMAIL
@@ -180,7 +176,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     return null;
                   },
                 ),
-
                 const SizedBox(height: 18),
 
                 /// PASSWORD
@@ -196,7 +191,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     return null;
                   },
                 ),
-
                 const SizedBox(height: 18),
 
                 /// CONFIRM PASSWORD
@@ -205,15 +199,13 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 _passwordField(
                   controller: confirmPassController,
                   visible: _confirmPasswordVisible,
-                  toggle: () =>
-                      setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
+                  toggle: () => setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
                   validator: (v) {
                     if (v == null || v.isEmpty) return "Confirm your password";
                     if (v != passController.text) return "Passwords do not match";
                     return null;
                   },
                 ),
-
                 const SizedBox(height: 15),
 
                 Row(
@@ -231,15 +223,13 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 15),
 
                 Center(
                   child: SizedBox(
                     width: 160,
                     child: ElevatedButton(
-                      onPressed:
-                          state.status == AuthStatus.loading ? null : _register,
+                      onPressed: state.status == AuthStatus.loading ? null : _register,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: kPrimaryButtonColor,
                         padding: const EdgeInsets.symmetric(vertical: 14),
@@ -260,7 +250,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
 
                 Center(
@@ -275,8 +264,7 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                         onTap: () {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                                builder: (_) => const LoginpageScreen()),
+                            MaterialPageRoute(builder: (_) => const LoginpageScreen()),
                           );
                         },
                         child: const Text(
@@ -291,7 +279,6 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 30),
               ],
             ),

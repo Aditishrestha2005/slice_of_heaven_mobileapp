@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:slice_of_heaven/screen/signuppage_screen.dart';
 import '../features/auth/presentation/pages/signuppage_screen.dart';
 
 class GetStartedPageScreen extends StatelessWidget {

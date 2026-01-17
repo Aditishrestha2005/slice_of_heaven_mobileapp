@@ -3,6 +3,8 @@ import 'package:slice_of_heaven/features/auth/domain/usecases/login_usecase.dart
 import 'package:slice_of_heaven/features/auth/domain/usecases/register_usecase.dart';
 import 'package:slice_of_heaven/features/auth/presentation/state/auth_state.dart';
 
+import 'package:uuid/uuid.dart';
+
 
 
 final authViewModelProvider = NotifierProvider<AuthViewModel,AuthState>(
@@ -10,32 +12,32 @@ final authViewModelProvider = NotifierProvider<AuthViewModel,AuthState>(
 
 class AuthViewModel extends Notifier<AuthState>{
     late final RegisterUsecase _registerUsecase;
-    late final LoginUsecase _loginUsecase;
+    late final LoginUseCase _loginUsecase;
 
     
   @override
   AuthState build() {
     _registerUsecase = ref.read(registerUsercaseProvider);
-    _loginUsecase = ref.read(loginUsecaseProvider);
+    _loginUsecase = ref.read(loginUseCaseProvider);
     return AuthState();
   }
   Future<void> register({
     required String fullName,
     required String email,
     required String username,
-    String? batchId,
-    String? phoneNumber,
-    required String password,
+  
+    required String password, required String confirmPassword,
     }) async {
         state = state.copyWith(status: AuthStatus.loading);
         //wait for 2 seconds
         await Future.delayed(Duration(seconds:2));
+        final uuid = Uuid();
         final params = RegisterUsecaseParams(
+        authId: uuid.v4(),
         fullName: fullName,
         email: email,
         username: username,
-        batchId: batchId,
-        phoneNumber: phoneNumber,
+    
         password: password,
     );
 
@@ -59,7 +61,7 @@ class AuthViewModel extends Notifier<AuthState>{
   }) async {
     state = state.copyWith(status: AuthStatus.loading);
   
-  final params = LoginUsecaseParams(
+  final params = LoginParams(
     email: email,
     password: password,
   );
