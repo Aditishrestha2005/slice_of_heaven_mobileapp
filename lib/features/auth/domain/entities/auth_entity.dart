@@ -27,8 +27,7 @@ class AuthEntity extends Equatable {
     phoneNumber,
     username,
     password,
-    profilePicture,
-    
+    profilePicture
   ];
 
   String? get token => null;
