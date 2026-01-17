@@ -67,9 +67,7 @@ class ApiClient {
 
   Dio get dio => _dio;
 
-  // ────────────────────────────────────────────────
-  // HTTP Methods
-  // ────────────────────────────────────────────────
+ 
 
   Future<Response> get(
     String path, {
@@ -141,9 +139,7 @@ class ApiClient {
   }
 }
 
-// ────────────────────────────────────────────────
-// Auth Interceptor (adds Bearer token + 401 handling)
-// ────────────────────────────────────────────────
+
 class _AuthInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
   static const String _tokenKey = 'auth_token';

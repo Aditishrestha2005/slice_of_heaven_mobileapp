@@ -3,9 +3,7 @@ import 'package:slice_of_heaven/core/services/hive/hive_service.dart';
 import 'package:slice_of_heaven/core/services/storage/user_session_service.dart';
 import 'package:slice_of_heaven/features/auth/data/models/auth_hive_model.dart';
 
-/// ===============================
-/// LOCAL DATASOURCE INTERFACE
-/// ===============================
+
 abstract class IAuthLocalDataSource {
   Future<AuthHiveModel?> login(String email, String password);
   Future<AuthHiveModel?> getCurrentUser();
@@ -17,9 +15,7 @@ abstract class IAuthLocalDataSource {
   Future<AuthHiveModel?> getUserById(String authId);
 }
 
-/// ===============================
-/// PROVIDER
-/// ===============================
+
 final authLocalDataSourceProvider =
     Provider<IAuthLocalDataSource>((ref) {
   final hiveService = ref.read(hiveServiceProvider);
@@ -31,9 +27,7 @@ final authLocalDataSourceProvider =
   );
 });
 
-/// ===============================
-/// IMPLEMENTATION
-/// ===============================
+
 class AuthLocalDataSource implements IAuthLocalDataSource {
   final HiveService _hiveService;
   final UserSessionService _userSessionService;
