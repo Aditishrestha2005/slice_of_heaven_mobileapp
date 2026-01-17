@@ -23,7 +23,7 @@ final authLocalDataSourceProvider =
 
   return AuthLocalDataSource(
     hiveService: hiveService,
-    userSessionService: userSessionService,
+    userSessionService: userSessionService
   );
 });
 
