@@ -8,7 +8,7 @@ import 'package:slice_of_heaven/features/auth/data/repositories/auth_repository.
 import 'package:slice_of_heaven/features/auth/domain/entities/auth_entity.dart';
 import 'package:slice_of_heaven/features/auth/domain/repositories/auth_repository.dart';
 
-// ...existing code...
+
 class RegisterUsecaseParams extends Equatable {
   final String authId;
   final String fullName;
@@ -33,10 +33,10 @@ class RegisterUsecaseParams extends Equatable {
     email,
     username,
     password,
-    phoneNumber,
+    phoneNumber
   ];
 }
-// ...existing code...
+
 
 //Provider
 final registerUsercaseProvider = Provider<RegisterUsecase>((ref){
@@ -58,7 +58,7 @@ class RegisterUsecase implements UsecaseWithParams<bool,RegisterUsecaseParams>{
       email: params.email,
       username: params.username,
       password: params.password,
-      phoneNumber: params.phoneNumber,
+      phoneNumber: params.phoneNumber
     );
     return  _authRepository.register(entity);
   }
