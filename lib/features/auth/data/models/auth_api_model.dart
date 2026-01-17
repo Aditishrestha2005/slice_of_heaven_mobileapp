@@ -1,5 +1,3 @@
-
-
 import 'package:slice_of_heaven/features/auth/domain/entities/auth_entity.dart';
 
 class AuthApiModel {
@@ -8,7 +6,7 @@ class AuthApiModel {
   final String email;
   final String username;
   final String? phoneNumber;
-  final String? password; // only for request
+  final String? password; 
   final String? token;
   final String? profilePicture;
 
@@ -51,7 +49,7 @@ class AuthApiModel {
       "email": email,
       "username": username,
       "password": password,
-      "confirmPassword": confirmPassword ?? password, // use same password if confirm not provided
+      "confirmPassword": confirmPassword ?? password, 
       "phoneNumber": phoneNumber,
     };
   }
