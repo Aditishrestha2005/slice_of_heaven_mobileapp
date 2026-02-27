@@ -1,12 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:slice_of_heaven/core/constants/hive_table_constant.dart';
-
 import 'package:slice_of_heaven/features/auth/domain/entities/auth_entity.dart';
 import 'package:uuid/uuid.dart';
 
 part 'auth_hive_model.g.dart';
 
-/// Hive model for authentication/user
 @HiveType(typeId: HiveTableConstant.authTypeId)
 class AuthHiveModel extends HiveObject {
   @HiveField(0)
@@ -19,10 +17,10 @@ class AuthHiveModel extends HiveObject {
   final String email;
 
   @HiveField(3)
-  final String? phoneNumber;
+  final String username;
 
   @HiveField(4)
-  final String username;
+  final String? phoneNumber;
 
   @HiveField(5)
   final String? password;
@@ -34,33 +32,31 @@ class AuthHiveModel extends HiveObject {
     String? authId,
     required this.fullName,
     required this.email,
-    this.phoneNumber,
     required this.username,
+    this.phoneNumber,
     this.password,
     this.profilePicture,
   }) : authId = authId ?? const Uuid().v4();
 
-  /// Convert Hive Model → Domain Entity
   AuthEntity toEntity() {
     return AuthEntity(
       authId: authId,
       fullName: fullName,
       email: email,
-      phoneNumber: phoneNumber,
       username: username,
+      phoneNumber: phoneNumber,
       password: password,
       profilePicture: profilePicture,
     );
   }
 
-  /// Convert Domain Entity → Hive Model
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
       authId: entity.authId,
       fullName: entity.fullName,
       email: entity.email,
-      phoneNumber: entity.phoneNumber,
       username: entity.username,
+      phoneNumber: entity.phoneNumber,
       password: entity.password,
       profilePicture: entity.profilePicture,
     );

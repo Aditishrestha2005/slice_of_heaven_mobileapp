@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:slice_of_heaven/features/onboarding/presentation/pages/onboarding_screen.dart';
-import 'package:slice_of_heaven/screen/dashboard_screen.dart';
+import 'package:slice_of_heaven/features/dashboard/presentation/pages/dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool isLoggedIn;

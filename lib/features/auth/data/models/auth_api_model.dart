@@ -6,7 +6,6 @@ class AuthApiModel {
   final String email;
   final String username;
   final String? phoneNumber;
-  final String? password; 
   final String? token;
   final String? profilePicture;
 
@@ -16,32 +15,35 @@ class AuthApiModel {
     required this.email,
     required this.username,
     this.phoneNumber,
-    this.password,
     this.token,
     this.profilePicture,
   });
 
-  // API response → Model
   factory AuthApiModel.fromJson(Map<String, dynamic> json) {
+    final first = (json['firstName'] ?? '').toString();
+    final last = (json['lastName'] ?? '').toString();
+    final composedName = ('$first $last').trim();
+
     return AuthApiModel(
-      id: json['_id'],
-      fullName: "${json['firstName']} ${json['lastName']}".trim(),
-      email: json['email'],
-      username: json['username'],
-      phoneNumber: json['phoneNumber'],
-      token: json['token'],
-      profilePicture: json['profilePicture'],
+      id: (json['_id'] ?? json['id'])?.toString(),
+      fullName: composedName.isNotEmpty
+          ? composedName
+          : (json['fullName'] ?? '').toString(),
+      email: (json['email'] ?? '').toString(),
+      username: (json['username'] ?? '').toString(),
+      phoneNumber: json['phoneNumber']?.toString(),
+      token: json['token']?.toString(),
+      profilePicture: json['profilePicture']?.toString(),
     );
   }
 
-  // Model → API request (Signup / Login)
-  Map<String, dynamic> toJson({String? confirmPassword}) {
-    // Split fullName into firstName and lastName
-    final nameParts = fullName.split(' ');
-    final firstName = nameParts.first;
-    final lastName = nameParts.length > 1
-        ? nameParts.sublist(1).join(' ')
-        : '';
+  Map<String, dynamic> toRegisterJson({
+    required String password,
+    required String confirmPassword,
+  }) {
+    final parts = fullName.trim().split(RegExp(r'\s+'));
+    final firstName = parts.isNotEmpty ? parts.first : '';
+    final lastName = parts.length > 1 ? parts.sublist(1).join(' ') : '';
 
     return {
       "firstName": firstName,
@@ -49,12 +51,18 @@ class AuthApiModel {
       "email": email,
       "username": username,
       "password": password,
-      "confirmPassword": confirmPassword ?? password, 
+      "confirmPassword": confirmPassword,
       "phoneNumber": phoneNumber,
     };
   }
 
-  // API Model → Domain Entity
+  static Map<String, dynamic> toLoginJson({
+    required String email,
+    required String password,
+  }) {
+    return {"email": email, "password": password};
+  }
+
   AuthEntity toEntity() {
     return AuthEntity(
       authId: id,
@@ -62,13 +70,11 @@ class AuthApiModel {
       email: email,
       username: username,
       phoneNumber: phoneNumber,
-      password: password,
       token: token,
       profilePicture: profilePicture,
     );
   }
 
-  // Entity → API Model
   factory AuthApiModel.fromEntity(AuthEntity entity) {
     return AuthApiModel(
       id: entity.authId,
@@ -76,7 +82,6 @@ class AuthApiModel {
       email: entity.email,
       username: entity.username,
       phoneNumber: entity.phoneNumber,
-      password: entity.password,
       token: entity.token,
       profilePicture: entity.profilePicture,
     );
