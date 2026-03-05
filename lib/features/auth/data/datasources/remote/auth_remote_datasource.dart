@@ -3,7 +3,7 @@ import 'package:slice_of_heaven/core/api/api_client.dart';
 import 'package:slice_of_heaven/core/api/api_endpoints.dart';
 import 'package:slice_of_heaven/core/services/storage/token_service.dart';
 import 'package:slice_of_heaven/core/services/storage/user_session_service.dart';
-import 'package:slice_of_heaven/features/auth/data/datasources/remote/auth_datasource.dart';
+import 'package:slice_of_heaven/features/auth/data/datasources/auth_datasource.dart';
 import 'package:slice_of_heaven/features/auth/data/models/auth_api_model.dart';
 
 final authRemoteDatasourceProvider = Provider<IAuthRemoteDataSource>((ref) {

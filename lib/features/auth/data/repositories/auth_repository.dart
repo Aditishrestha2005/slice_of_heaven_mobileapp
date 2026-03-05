@@ -3,8 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:slice_of_heaven/core/error/failure.dart';
 import 'package:slice_of_heaven/core/services/connectivity/network_info.dart';
+import 'package:slice_of_heaven/features/auth/data/datasources/auth_datasource.dart';
 import 'package:slice_of_heaven/features/auth/data/datasources/local/auth_local_datascource.dart';
-import 'package:slice_of_heaven/features/auth/data/datasources/remote/auth_datasource.dart';
+
 import 'package:slice_of_heaven/features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:slice_of_heaven/features/auth/data/models/auth_api_model.dart';
 import 'package:slice_of_heaven/features/auth/data/models/auth_hive_model.dart';

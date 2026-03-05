@@ -33,7 +33,7 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
   final fullNameController = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
-  final phoneController = TextEditingController(); // ✅ NEW
+  final phoneController = TextEditingController();
   final passController = TextEditingController();
   final confirmPassController = TextEditingController();
 
@@ -46,7 +46,7 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
     fullNameController.dispose();
     usernameController.dispose();
     emailController.dispose();
-    phoneController.dispose(); // ✅ NEW
+    phoneController.dispose();
     passController.dispose();
     confirmPassController.dispose();
     super.dispose();
@@ -63,43 +63,40 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
       return;
     }
 
-    final authVM = ref.read(authViewModelProvider.notifier);
-
-    await authVM.register(
-      fullName: fullNameController.text.trim(),
-      username: usernameController.text.trim(),
-      email: emailController.text.trim(),
-      password: passController.text.trim(),
-      confirmPassword: confirmPassController.text.trim(),
-      phone: phoneController.text.trim(), // ✅ NEW (real value)
-    );
-
-    final state = ref.read(authViewModelProvider);
-
-    if (state.status == AuthStatus.loading) {
-      return;
-    } else if (state.status == AuthStatus.authenticated) {
-      SnackbarUtils.showSuccess(context, "Account created successfully");
-
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const LoginpageScreen()),
-          );
-        }
-      });
-    } else if (state.status == AuthStatus.error) {
-      SnackbarUtils.showError(
-        context,
-        state.errorMessage ?? "Registration failed",
-      );
-    }
+    // ✅ Only trigger register. Listener will handle success/error navigation.
+    ref.read(authViewModelProvider.notifier).register(
+          fullName: fullNameController.text.trim(),
+          username: usernameController.text.trim(),
+          email: emailController.text.trim(),
+          password: passController.text.trim(),
+          confirmPassword: confirmPassController.text.trim(),
+          phone: phoneController.text.trim(),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    // We still watch to disable button / show loader
     final state = ref.watch(authViewModelProvider);
+
+    // ✅ Listen to register result
+    ref.listen<AuthState>(authViewModelProvider, (previous, next) {
+      // register success -> go to login screen (as you intended)
+      if (next.status == AuthStatus.authenticated) {
+        SnackbarUtils.showSuccess(context, "Account created successfully");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginpageScreen()),
+        );
+      }
+
+      if (next.status == AuthStatus.error) {
+        SnackbarUtils.showError(
+          context,
+          next.errorMessage ?? "Registration failed",
+        );
+      }
+    });
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 230, 209),
@@ -151,8 +148,9 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 const SizedBox(height: 8),
                 _textField(
                   controller: fullNameController,
-                  validator: (v) =>
-                      v == null || v.trim().isEmpty ? "Full name is required" : null,
+                  validator: (v) => v == null || v.trim().isEmpty
+                      ? "Full name is required"
+                      : null,
                 ),
                 const SizedBox(height: 18),
 
@@ -162,8 +160,9 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 const SizedBox(height: 8),
                 _textField(
                   controller: usernameController,
-                  validator: (v) =>
-                      v == null || v.trim().isEmpty ? "Username is required" : null,
+                  validator: (v) => v == null || v.trim().isEmpty
+                      ? "Username is required"
+                      : null,
                 ),
                 const SizedBox(height: 18),
 
@@ -184,7 +183,7 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 ),
                 const SizedBox(height: 18),
 
-                /// ✅ PHONE NUMBER (NEW)
+                /// PHONE
                 const Text("Phone Number",
                     style: TextStyle(color: kPrimaryTextColor, fontSize: 16)),
                 const SizedBox(height: 8),
@@ -192,8 +191,9 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   validator: (v) {
-                    if (v == null || v.trim().isEmpty) return "Phone number is required";
-                    // simple validation (you can make stricter later)
+                    if (v == null || v.trim().isEmpty) {
+                      return "Phone number is required";
+                    }
                     if (v.trim().length < 7) return "Enter a valid phone number";
                     return null;
                   },
@@ -207,7 +207,8 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 _passwordField(
                   controller: passController,
                   visible: _passwordVisible,
-                  toggle: () => setState(() => _passwordVisible = !_passwordVisible),
+                  toggle: () =>
+                      setState(() => _passwordVisible = !_passwordVisible),
                   validator: (v) {
                     if (v == null || v.isEmpty) return "Password is required";
                     if (v.length < 6) return "Minimum 6 characters";
@@ -223,8 +224,8 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                 _passwordField(
                   controller: confirmPassController,
                   visible: _confirmPasswordVisible,
-                  toggle: () => setState(
-                      () => _confirmPasswordVisible = !_confirmPasswordVisible),
+                  toggle: () => setState(() =>
+                      _confirmPasswordVisible = !_confirmPasswordVisible),
                   validator: (v) {
                     if (v == null || v.isEmpty) return "Confirm your password";
                     if (v != passController.text) return "Passwords don't match";
@@ -254,7 +255,8 @@ class _SignuppageScreenState extends ConsumerState<SignuppageScreen> {
                   child: SizedBox(
                     width: 160,
                     child: ElevatedButton(
-                      onPressed: state.status == AuthStatus.loading ? null : _register,
+                      onPressed:
+                          state.status == AuthStatus.loading ? null : _register,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: kPrimaryButtonColor,
                         padding: const EdgeInsets.symmetric(vertical: 14),

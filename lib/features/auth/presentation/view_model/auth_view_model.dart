@@ -1,8 +1,10 @@
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:slice_of_heaven/core/services/storage/token_service.dart';
 import 'package:slice_of_heaven/core/services/storage/user_session_service.dart';
 import 'package:slice_of_heaven/features/auth/domain/entities/auth_entity.dart';
 import 'package:slice_of_heaven/features/auth/domain/usecases/login_usecase.dart';
+import 'package:slice_of_heaven/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:slice_of_heaven/features/auth/domain/usecases/register_usecase.dart';
 import 'package:slice_of_heaven/features/auth/presentation/state/auth_state.dart';
 import 'package:uuid/uuid.dart';
@@ -13,6 +15,11 @@ final authViewModelProvider =
 class AuthViewModel extends Notifier<AuthState> {
   late final RegisterUsecase _registerUsecase;
   late final LoginUseCase _loginUsecase;
+
+  // ✅ clean logout usecase
+  late final LogoutUseCase _logoutUseCase;
+
+  // keep these if you still need them for build() session restore
   late final UserSessionService _userSessionService;
   late final TokenService _tokenService;
 
@@ -20,6 +27,8 @@ class AuthViewModel extends Notifier<AuthState> {
   AuthState build() {
     _registerUsecase = ref.read(registerUsercaseProvider);
     _loginUsecase = ref.read(loginUseCaseProvider);
+    _logoutUseCase = ref.read(logoutUseCaseProvider);
+
     _userSessionService = ref.read(userSessionServiceProvider);
     _tokenService = ref.read(tokenServiceProvider);
 
@@ -61,7 +70,7 @@ class AuthViewModel extends Notifier<AuthState> {
       email: email,
       username: username,
       password: password,
-      confirmPassword: confirmPassword, // ✅ FIX
+      confirmPassword: confirmPassword,
       phoneNumber: phone,
     );
 
@@ -137,13 +146,25 @@ class AuthViewModel extends Notifier<AuthState> {
 
   Future<void> logout() async {
     state = state.copyWith(status: AuthStatus.loading);
-    await Future.delayed(const Duration(seconds: 1));
-    await _userSessionService.clearSession();
+
+    final result = await _logoutUseCase();
+
+    // extra safety: ensure token removed even if datasource didn’t
     await _tokenService.removeToken();
 
-    state = state.copyWith(
-      status: AuthStatus.unauthenticated,
-      authEntity: null,
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          status: AuthStatus.error,
+          errorMessage: failure.message,
+        );
+      },
+      (_) {
+        state = state.copyWith(
+          status: AuthStatus.unauthenticated,
+          authEntity: null,
+        );
+      },
     );
   }
 }

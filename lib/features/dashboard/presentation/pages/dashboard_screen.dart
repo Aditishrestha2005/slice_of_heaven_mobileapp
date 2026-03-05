@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:slice_of_heaven/features/dashboard/bottom_screen/cart_screen.dart';
-import 'package:slice_of_heaven/features/dashboard/bottom_screen/home_screen.dart';
-import 'package:slice_of_heaven/features/dashboard/bottom_screen/order_details_screen.dart';
+import 'package:slice_of_heaven/features/cart/presentation/pages/cart_screen.dart';
+import 'package:slice_of_heaven/features/home/presentation/pages/home_screen.dart';
+import 'package:slice_of_heaven/features/order/presentation/pages/order_history_page.dart';
 import 'package:slice_of_heaven/features/profile/presentation/pages/profile_screen.dart';
 
 
@@ -15,11 +15,11 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> screens = const [
-    HomeScreen(),
-    CartScreen(),
-    OrderDetailsScreen(),
-    ProfileScreen(),
+  final List<Widget> screens = [
+    const HomeScreen(),
+    const CartScreen(),
+    const OrderHistoryPage(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -35,8 +35,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueGrey,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: const Color.fromARGB(255, 108, 38, 2),
+        unselectedItemColor: const Color.fromARGB(255, 0, 0, 0),
 
         onTap: (index) {
           setState(() {

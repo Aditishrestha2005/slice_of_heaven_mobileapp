@@ -66,39 +66,35 @@ class _LoginpageScreenState extends ConsumerState<LoginpageScreen> {
 
     setState(() => _isLoading = true);
 
-    try {
-      // ✅ IMPORTANT: use AuthViewModel so token is saved
-      await ref.read(authViewModelProvider.notifier).login(
-            email: email,
-            password: password,
-          );
+    // ✅ IMPORTANT: don't navigate here. Listener will handle it.
+    ref.read(authViewModelProvider.notifier).login(
+          email: email,
+          password: password,
+        );
+  }
 
-      final state = ref.read(authViewModelProvider);
+  @override
+  Widget build(BuildContext context) {
+    // ✅ Listen to auth state changes and navigate ONLY when authenticated
+    ref.listen<AuthState>(authViewModelProvider, (previous, next) {
+      // stop spinner when not loading
+      if (next.status != AuthStatus.loading) {
+        if (mounted) setState(() => _isLoading = false);
+      }
 
-      if (!mounted) return;
-
-      if (state.status == AuthStatus.authenticated) {
+      if (next.status == AuthStatus.authenticated) {
         SnackbarUtils.showSuccess(context, "Login successful");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const DashboardScreen()),
         );
-      } else {
-        SnackbarUtils.showError(
-          context,
-          state.errorMessage ?? "Login failed",
-        );
       }
-    } catch (e) {
-      if (!mounted) return;
-      SnackbarUtils.showError(context, "Login failed: $e");
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
 
-  @override
-  Widget build(BuildContext context) {
+      if (next.status == AuthStatus.error) {
+        SnackbarUtils.showError(context, next.errorMessage ?? "Login failed");
+      }
+    });
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 230, 209),
       body: SafeArea(
@@ -199,14 +195,17 @@ class _LoginpageScreenState extends ConsumerState<LoginpageScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account? ",
-                      style:
-                          TextStyle(color: kPrimaryTextColor, fontSize: 16)),
+                  const Text(
+                    "Don't have an account? ",
+                    style: TextStyle(color: kPrimaryTextColor, fontSize: 16),
+                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const SignuppageScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => const SignuppageScreen(),
+                        ),
                       );
                     },
                     child: const Text(

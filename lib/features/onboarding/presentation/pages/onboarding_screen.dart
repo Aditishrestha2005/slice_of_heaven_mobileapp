@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:slice_of_heaven/screen/getstartedpage_screen.dart';
+import 'package:slice_of_heaven/features/onboarding/presentation/pages/getstartedpage_screen.dart';
 
 
 class OnboardingScreen extends StatefulWidget {

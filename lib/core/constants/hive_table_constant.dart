@@ -4,9 +4,17 @@ class HiveTableConstant {
   static const String authTable = 'auth_table';
   static const int authTypeId = 1;
 
+  static const int pizzaTypeId = 4;
+static const String pizzaTable = 'pizza_table';
+
   static const int profileTypeId = 2;
   static const String profileTable = 'profile_table';
 
   static const int cartItemTypeId = 3;
   static const String cartTable = 'cart_table';
+
+  static const int orderTypeId = 5;
+  static const String orderTable = 'order_table';
+
+  static const int orderItemTypeId = 6; // ✅ used by OrderItemHiveModel
 }

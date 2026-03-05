@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:slice_of_heaven/core/services/storage/user_session_service.dart';
 import 'package:slice_of_heaven/features/profile/domain/usecases/get_current_user_profile_usecase.dart';
 import 'package:slice_of_heaven/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:slice_of_heaven/features/profile/presentation/state/profile_state.dart';
@@ -18,12 +19,20 @@ class ProfileViewModel extends Notifier<ProfileState> {
   ProfileState build() {
     _getCurrentUserProfileUsecase =
         ref.read(getCurrentUserProfileUsecaseProvider);
+
     _updateProfileUsecase = ref.read(updateProfileUsecaseProvider);
+
     return const ProfileState();
   }
 
+  /// ===============================
+  /// GET CURRENT USER PROFILE
+  /// ===============================
   Future<void> getCurrentUserProfile() async {
-    state = state.copyWith(status: ProfileStatus.loading, errorMessage: null);
+    state = state.copyWith(
+      status: ProfileStatus.loading,
+      errorMessage: null,
+    );
 
     final result = await _getCurrentUserProfileUsecase();
 
@@ -34,16 +43,31 @@ class ProfileViewModel extends Notifier<ProfileState> {
           errorMessage: failure.message,
         );
       },
-      (profile) {
+      (profile) async {
+        // update UI state
         state = state.copyWith(
           status: ProfileStatus.success,
           profile: profile,
           errorMessage: null,
         );
+
+        // ✅ IMPORTANT FIX
+        // restore profile picture & phone into session
+        final session = ref.read(userSessionServiceProvider);
+
+        await session.updateProfileSession(
+          fullName: profile.fullName,
+          email: profile.email,
+          phoneNumber: profile.phoneNumber,
+          profilePicture: profile.profilePicture,
+        );
       },
     );
   }
 
+  /// ===============================
+  /// UPDATE PROFILE
+  /// ===============================
   Future<void> updateProfile({
     required String userId,
     required String fullName,
@@ -52,7 +76,10 @@ class ProfileViewModel extends Notifier<ProfileState> {
     String? profilePicturePath,
     File? profilePictureFile,
   }) async {
-    state = state.copyWith(status: ProfileStatus.loading, errorMessage: null);
+    state = state.copyWith(
+      status: ProfileStatus.loading,
+      errorMessage: null,
+    );
 
     final result = await _updateProfileUsecase(
       UpdateProfileParams(
@@ -65,7 +92,6 @@ class ProfileViewModel extends Notifier<ProfileState> {
       ),
     );
 
-    // ✅ fold synchronously (NO async inside fold)
     bool success = false;
 
     result.fold(
@@ -85,20 +111,37 @@ class ProfileViewModel extends Notifier<ProfileState> {
       },
     );
 
-    // ✅ Refresh after successful update (optional but useful)
+    /// ===============================
+    /// REFRESH PROFILE AFTER UPDATE
+    /// ===============================
     if (success) {
       final refreshed = await _getCurrentUserProfileUsecase();
+
       refreshed.fold(
         (_) {
-          // do nothing, keep success state
+          // keep existing state
         },
-        (profile) {
+        (profile) async {
+          // update UI state
           state = state.copyWith(profile: profile);
+
+          // ✅ Save into session so picture stays after restart
+          final session = ref.read(userSessionServiceProvider);
+
+          await session.updateProfileSession(
+            fullName: profile.fullName,
+            email: profile.email,
+            phoneNumber: profile.phoneNumber,
+            profilePicture: profile.profilePicture,
+          );
         },
       );
     }
   }
 
+  /// ===============================
+  /// CLEAR ERROR
+  /// ===============================
   void clearError() {
     state = state.copyWith(errorMessage: null);
   }

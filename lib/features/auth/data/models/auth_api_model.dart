@@ -24,6 +24,14 @@ class AuthApiModel {
     final last = (json['lastName'] ?? '').toString();
     final composedName = ('$first $last').trim();
 
+    // ✅ Accept multiple backend key names (very common source of bugs)
+    final picture = (json['profilePicture'] ??
+            json['imageUrl'] ??
+            json['profileImage'] ??
+            json['avatar'] ??
+            json['image'])
+        ?.toString();
+
     return AuthApiModel(
       id: (json['_id'] ?? json['id'])?.toString(),
       fullName: composedName.isNotEmpty
@@ -33,7 +41,7 @@ class AuthApiModel {
       username: (json['username'] ?? '').toString(),
       phoneNumber: json['phoneNumber']?.toString(),
       token: json['token']?.toString(),
-      profilePicture: json['profilePicture']?.toString(),
+      profilePicture: picture,
     );
   }
 

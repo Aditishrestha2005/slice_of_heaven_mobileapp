@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 
 class ApiEndpoints {
   static const bool isPhysicalDevice = false;
-  static const String _ipAddress = '192.168.1.1'; // change for physical device
+  static const String _ipAddress = '192.168.1.11'; // change for physical device home
+  //  static const String _ipAddress = "192.168.100.193";
   static const int _port = 5000;
 
   static String get _host {
@@ -24,6 +25,7 @@ class ApiEndpoints {
   static const String register = '/api/auth/register';
   static const String whoAmI = '/api/auth/whoami';
   static const String updateProfile = '/api/auth/update-profile';
+  
 
   // Pizza endpoints
   static const String pizzas = '/api/pizzas';
